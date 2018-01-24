@@ -2,7 +2,6 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr:'5'))
     }
-    # The agent allocated should be one where we can access the docker cli
     agent {
         label 'docker'
     }
