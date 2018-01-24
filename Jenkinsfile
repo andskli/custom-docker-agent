@@ -5,16 +5,19 @@ pipeline {
     agent {
         label 'docker'
     }
+    environment {
+        DOCKER_IMAGE_NAME = "ondmagi/custom-docker-agent"
+    }
     stages {
         stage("Build image") {
             steps {
-                sh "docker build -t ondmagi/custom-docker-agent:latest ."
+                sh "docker build -t ${DOCKER_IMAGE_NAME}:${GIT_BRANCH} ."
             }
         }
-        stage("Docker push") {
-            steps {
-                sh "docker push ondmagi/custom-docker-agent:latest"
-            }
+    }
+    post {
+        always {
+            sh "docker image rm ${DOCKER_IMAGE_NAME}"
         }
     }
 }
